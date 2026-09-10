@@ -1399,10 +1399,12 @@ bool AntiphonEditor::handleShortcut(const juce::KeyPress &key) {
   }
 
   if (action == Shortcuts::Action::ToggleMuteAll) {
+    bool anyMuted = false;
     for (auto *strip : localChannelStrips) {
-      strip->toggleMute();
+      if (strip->toggleMute())
+        anyMuted = true;
     }
-    announcer.say("Toggled Mute All", true);
+    announcer.sayToggle("", "mute all", anyMuted);
     return true;
   }
 
@@ -1476,16 +1478,16 @@ bool AntiphonEditor::handleShortcut(const juce::KeyPress &key) {
       auto *strip = localChannelStrips[idx];
       switch (action) {
       case Shortcuts::Action::ToggleMute:
-        strip->toggleMute();
-        announcer.say(strip->getChannelName() + " Mute toggled", true);
+        announcer.sayToggle(strip->getChannelName(), "mute",
+                            strip->toggleMute());
         break;
       case Shortcuts::Action::ToggleSolo:
-        strip->toggleSolo();
-        announcer.say(strip->getChannelName() + " Solo toggled", true);
+        announcer.sayToggle(strip->getChannelName(), "solo",
+                            strip->toggleSolo());
         break;
       case Shortcuts::Action::ToggleTransmit:
-        strip->toggleTransmit();
-        announcer.say(strip->getChannelName() + " Transmit toggled", true);
+        announcer.sayToggle(strip->getChannelName(), "transmit",
+                            strip->toggleTransmit());
         break;
       case Shortcuts::Action::NudgeVolumeUp:
         strip->nudgeVolume(1.0f);
@@ -1516,12 +1518,12 @@ bool AntiphonEditor::handleShortcut(const juce::KeyPress &key) {
       if (row != nullptr) {
         switch (action) {
         case Shortcuts::Action::ToggleMute:
-          row->toggleMute();
-          announcer.say(userStrip->getUsername() + " Mute toggled", true);
+          announcer.sayToggle(userStrip->getUsername(), "mute",
+                              row->toggleMute());
           break;
         case Shortcuts::Action::ToggleSolo:
-          row->toggleSolo();
-          announcer.say(userStrip->getUsername() + " Solo toggled", true);
+          announcer.sayToggle(userStrip->getUsername(), "solo",
+                              row->toggleSolo());
           break;
         case Shortcuts::Action::NudgeVolumeUp:
           row->nudgeVolume(1.0f);
