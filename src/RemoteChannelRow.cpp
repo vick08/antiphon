@@ -203,14 +203,16 @@ void RemoteChannelRow::resized() {
   vuArea = meterAreaFor(volumeSlider, meter.getX(), meter.getWidth());
 }
 
-void RemoteChannelRow::toggleMute() {
-  muteButton.setToggleState(!muteButton.getToggleState(),
-                            juce::sendNotification);
+bool RemoteChannelRow::toggleMute() {
+  const bool s = !muteButton.getToggleState();
+  muteButton.setToggleState(s, juce::sendNotification);
+  return s;
 }
 
-void RemoteChannelRow::toggleSolo() {
-  soloButton.setToggleState(!soloButton.getToggleState(),
-                            juce::sendNotification);
+bool RemoteChannelRow::toggleSolo() {
+  const bool s = !soloButton.getToggleState();
+  soloButton.setToggleState(s, juce::sendNotification);
+  return s;
 }
 
 void RemoteChannelRow::nudgeVolume(float deltaDb) {

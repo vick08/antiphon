@@ -1,6 +1,7 @@
 #include <JuceHeader.h>
 
 #include "AccessibleNaming.h"
+#include "Announcer.h"
 
 namespace {
 
@@ -68,6 +69,26 @@ public:
       AccessibleNaming::adoptLabelNames(root);
       expect(box.getTitle().isEmpty(),
              "whitespace is not a name; leave it for the audit to catch");
+    }
+
+    beginTest("formatToggle produces human-readable state announcements");
+    {
+      expectEquals(Announcer::formatToggle("Instrument", "transmit", true),
+                   juce::String("Instrument transmit on"));
+      expectEquals(Announcer::formatToggle("Instrument", "transmit", false),
+                   juce::String("Instrument transmit off"));
+      expectEquals(Announcer::formatToggle("Instrument", "mute", true),
+                   juce::String("Instrument mute on"));
+      expectEquals(Announcer::formatToggle("Instrument", "solo", true),
+                   juce::String("Instrument solo on"));
+      expectEquals(Announcer::formatToggle("alice", "mute", false),
+                   juce::String("alice mute off"));
+      expectEquals(Announcer::formatToggle("", "mute all", true),
+                   juce::String("Mute all on"));
+      expectEquals(Announcer::formatToggle("", "mute all", false),
+                   juce::String("Mute all off"));
+      expectEquals(Announcer::formatToggle("", "transmit", true),
+                   juce::String("Transmit on"));
     }
   }
 };

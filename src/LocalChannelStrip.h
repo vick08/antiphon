@@ -30,14 +30,22 @@ public:
   bool isSelected() const { return selected; }
   void setSelected(bool sel);
 
-  void toggleMute();
-  void toggleSolo();
-  void toggleTransmit();
+  bool toggleMute();
+  bool toggleSolo();
+  bool toggleTransmit();
+  bool isMuted() const { return muteButton.getToggleState(); }
+  bool isSoloed() const { return soloButton.getToggleState(); }
+  bool isTransmitting() const { return xmitButton.getToggleState(); }
   void nudgeVolume(float deltaDb);
   void nudgePan(float delta);
 
   int getChannelIndex() const { return channelIndex; }
-  juce::String getChannelName() const { return nameEditor.getText(); }
+  juce::String getChannelName() const {
+    const auto name = nameEditor.getText();
+    return name.isNotEmpty()
+               ? name
+               : "Local channel " + juce::String(channelIndex + 1);
+  }
 
 private:
   bool selected = false;

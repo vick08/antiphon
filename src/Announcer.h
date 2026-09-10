@@ -40,6 +40,22 @@ public:
         message, juce::AccessibilityHandler::AnnouncementPriority::medium);
   }
 
+  // Format a friendly toggle state announcement:
+  // e.g. "Instrument transmit on", "Instrument transmit off", "Mute all on"
+  static juce::String formatToggle(const juce::String &target,
+                                   const juce::String &action, bool on) {
+    const auto stateStr = on ? " on" : " off";
+    if (target.isEmpty())
+      return action.substring(0, 1).toUpperCase() + action.substring(1) +
+             stateStr;
+    return target + " " + action + stateStr;
+  }
+
+  void sayToggle(const juce::String &target, const juce::String &action,
+                 bool on) {
+    say(formatToggle(target, action, on), true);
+  }
+
   static juce::String verbosityName(Verbosity v) {
     switch (v) {
     case Verbosity::Off:

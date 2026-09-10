@@ -12,8 +12,10 @@ public:
   void update(const NinjamClient::RemoteUserChannel &c);
   void updatePeak(float peak);
   void updateOutputBusCount(int numBuses);
-  void toggleMute();
-  void toggleSolo();
+  bool toggleMute();
+  bool toggleSolo();
+  bool isMuted() const { return muteButton.getToggleState(); }
+  bool isSoloed() const { return soloButton.getToggleState(); }
   void nudgeVolume(float deltaDb);
   void nudgePan(float delta);
   juce::String getChannelName() const { return channelNameLabel.getText(); }

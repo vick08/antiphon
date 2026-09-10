@@ -367,19 +367,22 @@ void LocalChannelStrip::setSelected(bool sel) {
   }
 }
 
-void LocalChannelStrip::toggleMute() {
-  muteButton.setToggleState(!muteButton.getToggleState(),
-                            juce::sendNotification);
+bool LocalChannelStrip::toggleMute() {
+  const bool s = !muteButton.getToggleState();
+  muteButton.setToggleState(s, juce::sendNotification);
+  return s;
 }
 
-void LocalChannelStrip::toggleSolo() {
-  soloButton.setToggleState(!soloButton.getToggleState(),
-                            juce::sendNotification);
+bool LocalChannelStrip::toggleSolo() {
+  const bool s = !soloButton.getToggleState();
+  soloButton.setToggleState(s, juce::sendNotification);
+  return s;
 }
 
-void LocalChannelStrip::toggleTransmit() {
-  xmitButton.setToggleState(!xmitButton.getToggleState(),
-                            juce::sendNotification);
+bool LocalChannelStrip::toggleTransmit() {
+  const bool s = !xmitButton.getToggleState();
+  xmitButton.setToggleState(s, juce::sendNotification);
+  return s;
 }
 
 void LocalChannelStrip::nudgeVolume(float deltaDb) {
